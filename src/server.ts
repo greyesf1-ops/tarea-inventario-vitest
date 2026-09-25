@@ -1,0 +1,10 @@
+import { Pool } from 'pg';
+import { InventoryService } from './domain.js';
+import { PgProductRepository } from './repository.js';
+import { createApi } from './http.js';
+if (!process.env.DATABASE_URL) throw new Error('Falta DATABASE_URL');
+const pool = new Pool({connectionString: process.env.DATABASE_URL});
+await pool.query('SELECT 1 FROM products LIMIT 1');
+const server = createApi(new InventoryService(new PgProductRepository(pool)));
+server.listen(Number(process.env.PORT ?? 3001), '127.0.0.1', () => console.log(`API lista: http://localhost:${process.env.PORT ?? 3001}/products`));
+for (const signal of ['SIGINT', 'SIGTERM'] as const) process.on(signal, () => server.close(() => { void pool.end(); }));

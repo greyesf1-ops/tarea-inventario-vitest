@@ -1,0 +1,20 @@
+name: Pruebas de inventario
+on: [push, pull_request]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Instalar con archivo de bloqueo
+        run: npm ci
+      - name: Compilar TypeScript
+        run: npm run build
+      - name: Pruebas unitarias - Vitest
+        run: npm run test:unit
+      - name: Pruebas de integración - PostgreSQL Testcontainers
+        run: npm run test:integration
