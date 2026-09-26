@@ -15,6 +15,29 @@ jobs:
       - name: Compilar TypeScript
         run: npm run build
       - name: Pruebas unitarias - Vitest
-        run: npm run test:unit
+        run: |
+          mkdir -p evidencias/generated
+          set -o pipefail
+          NO_COLOR=1 npm run test:unit -- --reporter=verbose 2>&1 | tee evidencias/generated/unit.log
       - name: Pruebas de integración - PostgreSQL Testcontainers
-        run: npm run test:integration
+        run: |
+          set -o pipefail
+          NO_COLOR=1 npm run test:integration -- --reporter=verbose 2>&1 | tee evidencias/generated/integration.log
+      - name: Preparar navegador para grabación
+        run: npx playwright install --with-deps chromium
+      - name: Grabar API real y evidencias
+        run: |
+          cp .env.example .env
+          docker compose up -d --wait
+          npm run migrate
+          npm start > evidencias/generated/api.log 2>&1 &
+          node scripts/record-demo.mjs
+      - name: Liberar base de demostración
+        if: always()
+        run: docker compose down -v
+      - name: Guardar evidencias
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencias-inventario
+          path: evidencias/generated/

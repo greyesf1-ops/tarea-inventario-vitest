@@ -1,5 +1,8 @@
 {
-  "name": "inventario-postgresql-vitest", "version": "1.0.0", "private": true, "type": "module",
+  "name": "inventario-postgresql-vitest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "tsx --env-file=.env src/server.ts",
     "start": "node --env-file=.env dist/server.js",
@@ -10,6 +13,16 @@
     "test:integration": "vitest run tests/integration",
     "test": "npm run test:unit && npm run test:integration"
   },
-  "dependencies": {"pg": "^8.16.3"},
-  "devDependencies": {"@testcontainers/postgresql": "^11.5.1", "@types/node": "^22.0.0", "@types/pg": "^8.15.5", "tsx": "^4.20.5", "typescript": "^5.9.2", "vitest": "^3.2.4"}
+  "dependencies": {
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "^11.5.1",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.15.5",
+    "playwright": "^1.63.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
 }
