@@ -1,5 +1,11 @@
 # Inventario con TypeScript, PostgreSQL y pruebas automatizadas
 
+[![Pruebas de inventario](https://github.com/greyesf1-ops/tarea-inventario-vitest/actions/workflows/tests.yml/badge.svg)](https://github.com/greyesf1-ops/tarea-inventario-vitest/actions/workflows/tests.yml)
+
+- [Código público](https://github.com/greyesf1-ops/tarea-inventario-vitest)
+- [Ejecuciones de GitHub Actions](https://github.com/greyesf1-ops/tarea-inventario-vitest/actions/workflows/tests.yml)
+- [Entrega: PDF, video y evidencias](https://github.com/greyesf1-ops/tarea-inventario-vitest/releases/tag/entrega-v1)
+
 API para registrar productos, consultar existencias y retirar unidades. La lógica de validación está en `src/domain.ts`; el acceso SQL real está en `src/repository.ts`. El transporte HTTP usa el servidor nativo de Node.js.
 
 ## Reglas
@@ -72,4 +78,8 @@ La aplicación usa `DATABASE_URL` de `.env` y conserva datos en el volumen de Co
 
 ## Entrega
 
-El PDF y el video deben documentar resultados realmente obtenidos. Consultar `evidencias/ESTADO.md` para distinguir verificaciones realizadas y pendientes. No interpretar la existencia de las pruebas o del workflow como prueba de una ejecución exitosa.
+El PDF y el video se publican como archivos descargables en la release `entrega-v1`. El PDF identifica el commit y la ejecución exactos de las evidencias. El video graba un navegador real que envía peticiones a la API y muestra extractos de logs reales; incluye narración sintética en español y una captura de GitHub Actions. No es una grabación del escritorio personal ni utiliza respuestas simuladas.
+
+El workflow conserva las capturas, logs completos, respuestas JSON y grabación original en el artefacto `evidencias-inventario`. `scripts/record-demo.mjs` produce esa demostración contra la API levantada con PostgreSQL de Compose, después de ejecutar las pruebas. La integración continúa usando exclusivamente Testcontainers.
+
+Validación local: compilación y 31 pruebas unitarias aprobadas. La integración local requiere instalar/iniciar Docker; en el equipo de preparación no había motor de contenedores. Las 8 pruebas de integración y la demostración con PostgreSQL se verificaron en el runner Linux de GitHub Actions. Consultar `evidencias/ESTADO.md`.
